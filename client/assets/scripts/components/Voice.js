@@ -41,8 +41,7 @@ cc.Class({
         this.voice_failed.active = false;
       });
 
-      btnVoice.on(cc.Node.EventType.TOUCH_MOVE, () => {
-      });
+      btnVoice.on(cc.Node.EventType.TOUCH_MOVE, () => {});
 
       btnVoice.on(cc.Node.EventType.TOUCH_END, () => {
         if (Date.now() - this.lastTouchTime < 1000) {

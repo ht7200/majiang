@@ -21,7 +21,6 @@ cc.Class({
       .getComponent(cc.Label);
     this.timeLabel.string = '00';
 
-
     this.node.on('game_begin', () => {
       this.initPointer();
     });
@@ -65,7 +64,7 @@ cc.Class({
       if (t < 10) {
         pre = '0';
       }
-      this._timeLabel.string = pre + t;
+      this.timeLabel.string = pre + t;
     }
   }
 });
