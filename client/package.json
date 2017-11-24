@@ -13,7 +13,7 @@
   "author": "baby2011",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^4.10.0",
+    "eslint": "^4.11.0",
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-config-google": "^0.9.1",
     "eslint-config-standard": "^10.2.1",

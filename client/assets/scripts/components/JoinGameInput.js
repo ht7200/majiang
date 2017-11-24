@@ -4,27 +4,9 @@ cc.Class({
   properties: {
     nums: {
       default: [],
-      type: [cc.Label],
+      type: [cc.Label]
     },
-    _inputIndex: 0,
-
-    // foo: {
-
-    //    default: null,
-
-    //    url: cc.Texture2D,  // optional, default is typeof default
-
-    //    serializable: true, // optional, default is true
-
-    //    visible: true,      // optional, default is true
-
-    //    displayName: 'Foo', // optional
-
-    //    readonly: false,    // optional, default is false
-
-    // },
-
-    // ...
+    inputIndex: 0
   },
 
   // use this for initialization
@@ -35,33 +17,29 @@ cc.Class({
   },
 
   onInputFinished(roomId) {
-    cc.vv.userMgr.enterRoom(
-      roomId,
-      (ret) => {
-        if (ret.errcode == 0) {
-          this.node.active = false;
-        } else {
-          var content = `房间[${roomId}]不存在，请重新输入!`;
-          if (ret.errcode == 4) {
-            content = `房间[${roomId}]已满!`;
-          }
-          cc.vv.alert.show('提示', content);
-          this.onResetClicked();
+    cc.vv.userMgr.enterRoom(roomId, (ret) => {
+      if (ret.errcode === 0) {
+        this.node.active = false;
+      } else {
+        let content = `房间[${roomId}]不存在，请重新输入!`;
+        if (ret.errcode === 4) {
+          content = `房间[${roomId}]已满!`;
         }
-      },
-    );
+        cc.vv.alert.show('提示', content);
+        this.onResetClicked();
+      }
+    });
   },
 
   onInput(num) {
-    if (this._inputIndex >= this.nums.length) {
+    if (this.inputIndex >= this.nums.length) {
       return;
     }
-    this.nums[this._inputIndex].string = num;
-    this._inputIndex += 1;
+    this.nums[this.inputIndex].string = num;
+    this.sinputIndex += 1;
 
-    if (this._inputIndex == this.nums.length) {
-      var roomId = this.parseRoomID();
-      console.log(`ok:${roomId}`);
+    if (this.inputIndex === this.nums.length) {
+      const roomId = this.parseRoomID();
       this.onInputFinished(roomId);
     }
   },
@@ -97,15 +75,15 @@ cc.Class({
     this.onInput(9);
   },
   onResetClicked() {
-    for (var i = 0; i < this.nums.length; ++i) {
+    for (let i = 0; i < this.nums.length; i++) {
       this.nums[i].string = '';
     }
-    this._inputIndex = 0;
+    this.inputIndex = 0;
   },
   onDelClicked() {
-    if (this._inputIndex > 0) {
-      this._inputIndex -= 1;
-      this.nums[this._inputIndex].string = '';
+    if (this.inputIndex > 0) {
+      this.inputIndex -= 1;
+      this.nums[this.inputIndex].string = '';
     }
   },
   onCloseClicked() {
@@ -113,12 +91,12 @@ cc.Class({
   },
 
   parseRoomID() {
-    var str = '';
-    for (var i = 0; i < this.nums.length; ++i) {
+    let str = '';
+    for (let i = 0; i < this.nums.length; i++) {
       str += this.nums[i].string;
     }
     return str;
-  },
+  }
 
   // called every frame, uncomment this function to activate update callback
 

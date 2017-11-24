@@ -1,55 +1,50 @@
 cc.Class({
-    extends: cc.Component,
+  extends: cc.Component,
 
-    properties: {
-        // foo: {
-        //    default: null,
-        //    url: cc.Texture2D,  // optional, default is typeof default
-        //    serializable: true, // optional, default is true
-        //    visible: true,      // optional, default is true
-        //    displayName: 'Foo', // optional
-        //    readonly: false,    // optional, default is false
-        // },
-        // ...
-        _nextPlayTime:1,
-        _replay:null,
-        _isPlaying:true,
-    },
+  properties: {
+    nextPlayTime: 1,
+    replay: null,
+    isPlaying: true
+  },
 
-    // use this for initialization
-    onLoad: function () {
-        if(cc.vv == null){
-            return;
+  // use this for initialization
+  onLoad() {
+    if (cc.vv == null) {
+      return;
+    }
+
+    this.replay = cc.find('Canvas/replay');
+    this.replay.active = cc.vv.replayMgr.isReplay();
+  },
+
+  onBtnPauseClicked() {
+    this.isPlaying = false;
+  },
+
+  onBtnPlayClicked() {
+    this.isPlaying = true;
+  },
+
+  onBtnBackClicked() {
+    cc.vv.replayMgr.clear();
+    cc.vv.gameNetMgr.reset();
+    cc.vv.gameNetMgr.roomId = null;
+    cc.director.loadScene('hall');
+  },
+
+  // called every frame, uncomment this function to activate update callback
+  update(dt) {
+    if (cc.vv) {
+      if (
+        this.isPlaying &&
+        cc.vv.replayMgr.isReplay() &&
+        this.nextPlayTime > 0
+      ) {
+        this.nextPlayTime -= dt;
+        if (this.nextPlayTime < 0) {
+          this.nextPlayTime = cc.vv.replayMgr.takeAction();
         }
-        
-        this._replay = cc.find("Canvas/replay");
-        this._replay.active = cc.vv.replayMgr.isReplay();
-    },
-    
-    onBtnPauseClicked:function(){
-        this._isPlaying = false;
-    },
-    
-    onBtnPlayClicked:function(){
-        this._isPlaying = true;
-    },
-    
-    onBtnBackClicked:function(){
-        cc.vv.replayMgr.clear();
-        cc.vv.gameNetMgr.reset();
-        cc.vv.gameNetMgr.roomId = null;
-        cc.director.loadScene("hall");
-    },
-
-    // called every frame, uncomment this function to activate update callback
-    update: function (dt) {
-        if(cc.vv){
-            if(this._isPlaying && cc.vv.replayMgr.isReplay() == true && this._nextPlayTime > 0){
-                this._nextPlayTime -= dt;
-                if(this._nextPlayTime < 0){
-                    this._nextPlayTime = cc.vv.replayMgr.takeAction();
-                }
-            }
-        }
-    },
+      }
+    }
+  }
 });

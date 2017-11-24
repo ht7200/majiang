@@ -1,206 +1,203 @@
 cc.Class({
-    extends: cc.Component,
+  extends: cc.Component,
 
-    properties: {
-        // foo: {
-        //    default: null,
-        //    url: cc.Texture2D,  // optional, default is typeof default
-        //    serializable: true, // optional, default is true
-        //    visible: true,      // optional, default is true
-        //    displayName: 'Foo', // optional
-        //    readonly: false,    // optional, default is false
-        // },
-        // ...
-        _difenxuanze: null,
-        _zimo: null,
-        _wanfaxuanze: null,
-        _zuidafanshu: null,
-        _jushuxuanze: null,
-        _dianganghua: null,
-        _leixingxuanze: null,
-    },
+  properties: {
+    // foo: {
+    //    default: null,
+    //    url: cc.Texture2D,  // optional, default is typeof default
+    //    serializable: true, // optional, default is true
+    //    visible: true,      // optional, default is true
+    //    displayName: 'Foo', // optional
+    //    readonly: false,    // optional, default is false
+    // },
+    // ...
+    difenxuanze: null,
+    zimo: null,
+    wanfaxuanze: null,
+    zuidafanshu: null,
+    jushuxuanze: null,
+    dianganghua: null,
+    leixingxuanze: null
+  },
 
-    // use this for initialization
-    onLoad: function () {
-        this._leixingxuanze = [];
-        var t = this.node.getChildByName("leixingxuanze");
-        for (var i = 0; i < t.childrenCount; ++i) {
-            var n = t.children[i].getComponent("RadioButton");
-            if (n != null) {
-                this._leixingxuanze.push(n);
-            }
-        }
-
-        this._difenxuanze = [];
-        var t = this.node.getChildByName("difenxuanze");
-        for (var i = 0; i < t.childrenCount; ++i) {
-            var n = t.children[i].getComponent("RadioButton");
-            if (n != null) {
-                this._difenxuanze.push(n);
-            }
-        }
-        //console.log(this._difenxuanze);
-
-        this._zimo = [];
-        var t = this.node.getChildByName("zimojiacheng");
-        for (var i = 0; i < t.childrenCount; ++i) {
-            var n = t.children[i].getComponent("RadioButton");
-            if (n != null) {
-                this._zimo.push(n);
-            }
-        }
-        //console.log(this._zimo);
-
-        this._wanfaxuanze = [];
-        var t = this.node.getChildByName("wanfaxuanze");
-        for (var i = 0; i < t.childrenCount; ++i) {
-            var n = t.children[i].getComponent("CheckBox");
-            if (n != null) {
-                this._wanfaxuanze.push(n);
-            }
-        }
-        //console.log(this._wanfaxuanze);
-
-        this._zuidafanshu = [];
-        var t = this.node.getChildByName("zuidafanshu");
-        for (var i = 0; i < t.childrenCount; ++i) {
-            var n = t.children[i].getComponent("RadioButton");
-            if (n != null) {
-                this._zuidafanshu.push(n);
-            }
-        }
-        //console.log(this._zuidafanshu);
-
-        this._jushuxuanze = [];
-        var t = this.node.getChildByName("xuanzejushu");
-        for (var i = 0; i < t.childrenCount; ++i) {
-            var n = t.children[i].getComponent("RadioButton");
-            if (n != null) {
-                this._jushuxuanze.push(n);
-            }
-        }
-
-        this._dianganghua = [];
-        var t = this.node.getChildByName("dianganghua");
-        for (var i = 0; i < t.childrenCount; ++i) {
-            var n = t.children[i].getComponent("RadioButton");
-            if (n != null) {
-                this._dianganghua.push(n);
-            }
-        }
-        //console.log(this._jushuxuanze);
-    },
-
-    onBtnBack: function () {
-        this.node.active = false;
-    },
-
-    onBtnOK: function () {
-        this.node.active = false;
-        this.createRoom();
-    },
-
-    createRoom: function () {
-        var self = this;
-        var onCreate = function (ret) {
-            if (ret.errcode !== 0) {
-                cc.vv.wc.hide();
-                //console.log(ret.errmsg);
-                if (ret.errcode == 2222) {
-                    cc.vv.alert.show("提示", "房卡不足，创建房间失败!");
-                } else {
-                    cc.vv.alert.show("提示", "创建房间失败,错误码:" + ret.errcode);
-                }
-            } else {
-                cc.vv.gameNetMgr.connectGameServer(ret);
-            }
-        };
-
-        var difen = 0;
-        for (var i = 0; i < self._difenxuanze.length; ++i) {
-            if (self._difenxuanze[i].checked) {
-                difen = i;
-                break;
-            }
-        }
-
-        var zimo = 0;
-        for (var i = 0; i < self._zimo.length; ++i) {
-            if (self._zimo[i].checked) {
-                zimo = i;
-                break;
-            }
-        }
-
-        var huansanzhang = self._wanfaxuanze[0].checked;
-        var jiangdui = self._wanfaxuanze[1].checked;
-        var menqing = self._wanfaxuanze[2].checked;
-        var tiandihu = self._wanfaxuanze[3].checked;
-
-        var type = 0;
-        for (var i = 0; i < self._leixingxuanze.length; ++i) {
-            if (self._leixingxuanze[i].checked) {
-                type = i;
-                break;
-            }
-        }
-
-        if (type == 0) {
-            type = "xzdd";
-        } else {
-            type = "xlch";
-        }
-
-        var zuidafanshu = 0;
-        for (var i = 0; i < self._zuidafanshu.length; ++i) {
-            if (self._zuidafanshu[i].checked) {
-                zuidafanshu = i;
-                break;
-            }
-        }
-
-
-        var jushuxuanze = 0;
-        for (var i = 0; i < self._jushuxuanze.length; ++i) {
-            if (self._jushuxuanze[i].checked) {
-                jushuxuanze = i;
-                break;
-            }
-        }
-
-        var dianganghua = 0;
-        for (var i = 0; i < self._dianganghua.length; ++i) {
-            if (self._dianganghua[i].checked) {
-                dianganghua = i;
-                break;
-            }
-        }
-
-        var conf = {
-            type: type,
-            difen: difen,
-            zimo: zimo,
-            jiangdui: jiangdui,
-            huansanzhang: huansanzhang,
-            zuidafanshu: zuidafanshu,
-            jushuxuanze: jushuxuanze,
-            dianganghua: dianganghua,
-            menqing: menqing,
-            tiandihu: tiandihu,
-        };
-
-        var data = {
-            account: cc.vv.userMgr.account,
-            sign: cc.vv.userMgr.sign,
-            conf: JSON.stringify(conf)
-        };
-        console.log(data);
-        cc.vv.wc.show("正在创建房间");
-        cc.vv.http.sendRequest("/create_private_room", data, onCreate);
+  // use this for initialization
+  onLoad() {
+    this.leixingxuanze = [];
+    const t = this.node.getChildByName('leixingxuanze');
+    for (let i = 0; i < t.childrenCount; i++) {
+      const n = t.children[i].getComponent('RadioButton');
+      if (n != null) {
+        this.leixingxuanze.push(n);
+      }
     }
 
-    // called every frame, uncomment this function to activate update callback
-    // update: function (dt) {
+    this.difenxuanze = [];
+    const tt = this.node.getChildByName('difenxuanze');
+    for (let i = 0; i < tt.childrenCount; i++) {
+      const n = t.children[i].getComponent('RadioButton');
+      if (n != null) {
+        this.difenxuanze.push(n);
+      }
+    }
+    // console.log(this._difenxuanze);
 
-    // },
+    this.zimo = [];
+    const ttt = this.node.getChildByName('zimojiacheng');
+    for (let i = 0; i < ttt.childrenCount; i++) {
+      const n = t.children[i].getComponent('RadioButton');
+      if (n != null) {
+        this.zimo.push(n);
+      }
+    }
+    // console.log(this._zimo);
+
+    this.wanfaxuanze = [];
+    const tttt = this.node.getChildByName('wanfaxuanze');
+    for (let i = 0; i < tttt.childrenCount; i++) {
+      const n = t.children[i].getComponent('CheckBox');
+      if (n != null) {
+        this.wanfaxuanze.push(n);
+      }
+    }
+    // console.log(this._wanfaxuanze);
+
+    this.zuidafanshu = [];
+    const ttttt = this.node.getChildByName('zuidafanshu');
+    for (let i = 0; i < ttttt.childrenCount; i++) {
+      const n = t.children[i].getComponent('RadioButton');
+      if (n != null) {
+        this.zuidafanshu.push(n);
+      }
+    }
+    // console.log(this._zuidafanshu);
+
+    this.jushuxuanze = [];
+    const tttttt = this.node.getChildByName('xuanzejushu');
+    for (let i = 0; i < tttttt.childrenCount; i++) {
+      const n = t.children[i].getComponent('RadioButton');
+      if (n != null) {
+        this.jushuxuanze.push(n);
+      }
+    }
+
+    this.dianganghua = [];
+    const tttttttt = this.node.getChildByName('dianganghua');
+    for (let i = 0; i < tttttttt.childrenCount; i++) {
+      const n = t.children[i].getComponent('RadioButton');
+      if (n != null) {
+        this.dianganghua.push(n);
+      }
+    }
+    // console.log(this._jushuxuanze);
+  },
+
+  onBtnBack() {
+    this.node.active = false;
+  },
+
+  onBtnOK() {
+    this.node.active = false;
+    this.createRoom();
+  },
+
+  createRoom() {
+    const onCreate = (ret) => {
+      if (ret.errcode !== 0) {
+        cc.vv.wc.hide();
+        // console.log(ret.errmsg);
+        if (ret.errcode === 2222) {
+          cc.vv.alert.show('提示', '房卡不足，创建房间失败!');
+        } else {
+          cc.vv.alert.show('提示', `创建房间失败,错误码:${ret.errcode}`);
+        }
+      } else {
+        cc.vv.gameNetMgr.connectGameServer(ret);
+      }
+    };
+
+    let difen = 0;
+    for (let i = 0; i < this.difenxuanze.length; i++) {
+      if (this.difenxuanze[i].checked) {
+        difen = i;
+        break;
+      }
+    }
+
+    let zimo = 0;
+    for (let i = 0; i < this.zimo.length; i++) {
+      if (this.zimo[i].checked) {
+        zimo = i;
+        break;
+      }
+    }
+
+    const huansanzhang = this.wanfaxuanze[0].checked;
+    const jiangdui = this.wanfaxuanze[1].checked;
+    const menqing = this.wanfaxuanze[2].checked;
+    const tiandihu = this.wanfaxuanze[3].checked;
+
+    let type = 0;
+    for (let i = 0; i < this.leixingxuanze.length; i++) {
+      if (this.leixingxuanze[i].checked) {
+        type = i;
+        break;
+      }
+    }
+
+    if (type === 0) {
+      type = 'xzdd';
+    } else {
+      type = 'xlch';
+    }
+
+    let zuidafanshu = 0;
+    for (let i = 0; i < this.zuidafanshu.length; i++) {
+      if (this.zuidafanshu[i].checked) {
+        zuidafanshu = i;
+        break;
+      }
+    }
+
+    let jushuxuanze = 0;
+    for (let i = 0; i < this.jushuxuanze.length; i++) {
+      if (this.jushuxuanze[i].checked) {
+        jushuxuanze = i;
+        break;
+      }
+    }
+
+    let dianganghua = 0;
+    for (let i = 0; i < this.dianganghua.length; i++) {
+      if (this.dianganghua[i].checked) {
+        dianganghua = i;
+        break;
+      }
+    }
+
+    const conf = {
+      type,
+      difen,
+      zimo,
+      jiangdui,
+      huansanzhang,
+      zuidafanshu,
+      jushuxuanze,
+      dianganghua,
+      menqing,
+      tiandihu
+    };
+
+    const data = {
+      account: cc.vv.userMgr.account,
+      sign: cc.vv.userMgr.sign,
+      conf: JSON.stringify(conf)
+    };
+    cc.vv.wc.show('正在创建房间');
+    cc.vv.http.sendRequest('/create_private_room', data, onCreate);
+  }
+
+  // called every frame, uncomment this function to activate update callback
+  // update: function (dt) {
+
+  // },
 });

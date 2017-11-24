@@ -1,235 +1,238 @@
 cc.Class({
-    extends: cc.Component,
+  extends: cc.Component,
 
-    properties: {
-        _sprIcon:null,
-        _zhuang:null,
-        _ready:null,
-        _offline:null,
-        _lblName:null,
-        _lblScore:null,
-        _scoreBg:null,
-        _nddayingjia:null,
-        _voicemsg:null,
-        
-        _chatBubble:null,
-        _emoji:null,
-        _lastChatTime:-1,
-        
-        _userName:"",
-        _score:0,
-        _dayingjia:false,
-        _isOffline:false,
-        _isReady:false,
-        _isZhuang:false,
-        _userId:null,
-    },
+  properties: {
+    sprIcon: null,
+    zhuang: null,
+    ready: null,
+    offline: null,
+    lblName: null,
+    lblScore: null,
+    scoreBg: null,
+    nddayingjia: null,
+    voicemsg: null,
+    chatBubble: null,
+    emoji: null,
+    lastChatTime: -1,
+    userName: '',
+    score: 0,
+    dayingjia: false,
+    isOffline: false,
+    isReady: false,
+    isZhuang: false,
+    userId: null
+  },
 
-    // use this for initialization
-    onLoad: function () {
-        if(cc.vv == null){
-            return;
-        }
-        
-        this._sprIcon = this.node.getChildByName("icon").getComponent("ImageLoader");
-        this._lblName = this.node.getChildByName("name").getComponent(cc.Label);
-        this._lblScore = this.node.getChildByName("score").getComponent(cc.Label);
-        this._voicemsg = this.node.getChildByName("voicemsg");
-        this._xuanpai = this.node.getChildByName("xuanpai");
-        this.refreshXuanPaiState();
-        
-        if(this._voicemsg){
-            this._voicemsg.active = false;
-        }
-        
-        if(this._sprIcon && this._sprIcon.getComponent(cc.Button)){
-            cc.vv.utils.addClickEvent(this._sprIcon,this.node,"Seat","onIconClicked");    
-        }
-        
-        
-        this._offline = this.node.getChildByName("offline");
-        
-        this._ready = this.node.getChildByName("ready");
-        
-        this._zhuang = this.node.getChildByName("zhuang");
-        
-        this._scoreBg = this.node.getChildByName("Z_money_frame");
-        this._nddayingjia = this.node.getChildByName("dayingjia");
-        
-        this._chatBubble = this.node.getChildByName("ChatBubble");
-        if(this._chatBubble != null){
-            this._chatBubble.active = false;            
-        }
-        
-        this._emoji = this.node.getChildByName("emoji");
-        if(this._emoji != null){
-            this._emoji.active = false;
-        }
-        
-        this.refresh();
-        
-        if(this._sprIcon && this._userId){
-            this._sprIcon.setUserID(this._userId);
-        }
-    },
-    
-    onIconClicked:function(){
-        var iconSprite = this._sprIcon.node.getComponent(cc.Sprite);
-        if(this._userId != null && this._userId > 0){
-           var seat = cc.vv.gameNetMgr.getSeatByID(this._userId);
-            var sex = 0;
-            if(cc.vv.baseInfoMap){
-                var info = cc.vv.baseInfoMap[this._userId];
-                if(info){
-                    sex = info.sex;
-                }                
-            }
-            cc.vv.userinfoShow.show(seat.name,seat.userid,iconSprite,sex,seat.ip);         
-        }
-    },
-    
-    refresh:function(){
-        if(this._lblName != null){
-            this._lblName.string = this._userName;    
-        }
-        
-        if(this._lblScore != null){
-            this._lblScore.string = this._score;            
-        }        
-        
-        if(this._nddayingjia != null){
-            this._nddayingjia.active = this._dayingjia == true;
-        }
-        
-        if(this._offline){
-            this._offline.active = this._isOffline && this._userName != "";
-        }
-        
-        if(this._ready){
-            this._ready.active = this._isReady && (cc.vv.gameNetMgr.numOfGames > 0); 
-        }
-        
-        if(this._zhuang){
-            this._zhuang.active = this._isZhuang;    
-        }
-        
-        this.node.active = this._userName != null && this._userName != ""; 
-    },
-    
-    setInfo(name,score,dayingjia){
-        this._userName = name;
-        this._score = score;
-        if(this._score == null){
-            this._score = 0;
-        }
-        this._dayingjia = dayingjia;
-        
-        if(this._scoreBg != null){
-            this._scoreBg.active = this._score != null;            
-        }
+  // use this for initialization
+  onLoad() {
+    if (cc.vv == null) {
+      return;
+    }
 
-        if(this._lblScore != null){
-            this._lblScore.node.active = this._score != null;            
-        }
+    this.sprIcon = this.node.getChildByName('icon').getComponent('ImageLoader');
+    this.lblName = this.node.getChildByName('name').getComponent(cc.Label);
+    this.lblScore = this.node.getChildByName('score').getComponent(cc.Label);
+    this.voicemsg = this.node.getChildByName('voicemsg');
+    this.xuanpai = this.node.getChildByName('xuanpai');
+    this.refreshXuanPaiState();
 
-        this.refresh();    
-    },
-    
-    setZhuang:function(value){
-        if(this._zhuang){
-            this._zhuang.active = value;
+    if (this.voicemsg) {
+      this.voicemsg.active = false;
+    }
+
+    if (this.sprIcon && this.sprIcon.getComponent(cc.Button)) {
+      cc.vv.utils.addClickEvent(
+        this.sprIcon,
+        this.node,
+        'Seat',
+        'onIconClicked'
+      );
+    }
+
+    this.offline = this.node.getChildByName('offline');
+
+    this.ready = this.node.getChildByName('ready');
+
+    this.zhuang = this.node.getChildByName('zhuang');
+
+    this.scoreBg = this.node.getChildByName('Z_money_frame');
+    this.nddayingjia = this.node.getChildByName('dayingjia');
+
+    this.chatBubble = this.node.getChildByName('ChatBubble');
+    if (this.chatBubble != null) {
+      this.chatBubble.active = false;
+    }
+
+    this.emoji = this.node.getChildByName('emoji');
+    if (this.emoji != null) {
+      this.emoji.active = false;
+    }
+
+    this.refresh();
+
+    if (this.sprIcon && this.userId) {
+      this.sprIcon.setUserID(this.userId);
+    }
+  },
+
+  onIconClicked() {
+    const iconSprite = this.sprIcon.node.getComponent(cc.Sprite);
+    if (this.userId != null && this.userId > 0) {
+      const seat = cc.vv.gameNetMgr.getSeatByID(this.userId);
+      let sex = 0;
+      if (cc.vv.baseInfoMap) {
+        const info = cc.vv.baseInfoMap[this.userId];
+        if (info) {
+          const { sex: ox } = info;
+          sex = ox;
         }
-    },
-    
-    setReady:function(isReady){
-        this._isReady = isReady;
-        if(this._ready){
-            this._ready.active = this._isReady && (cc.vv.gameNetMgr.numOfGames > 0); 
-        }
-    },
-    
-    setID:function(id){
-        var idNode = this.node.getChildByName("id");
-        if(idNode){
-            var lbl = idNode.getComponent(cc.Label);
-            lbl.string = "ID:" + id;            
-        }
-        
-        this._userId = id;
-        if(this._sprIcon){
-            this._sprIcon.setUserID(id); 
-        }
-    },
-    
-    setOffline:function(isOffline){
-        this._isOffline = isOffline;
-        if(this._offline){
-            this._offline.active = this._isOffline && this._userName != "";
-        }
-    },
-    
-    chat:function(content){
-        if(this._chatBubble == null || this._emoji == null){
-            return;
-        }
-        this._emoji.active = false;
-        this._chatBubble.active = true;
-        this._chatBubble.getComponent(cc.Label).string = content;
-        this._chatBubble.getChildByName("New Label").getComponent(cc.Label).string = content;
-        this._lastChatTime = 3;
-    },
-    
-    emoji:function(emoji){
-        //emoji = JSON.parse(emoji);
-        if(this._emoji == null || this._emoji == null){
-            return;
-        }
-        console.log(emoji);
-        this._chatBubble.active = false;
-        this._emoji.active = true;
-        this._emoji.getComponent(cc.Animation).play(emoji);
-        this._lastChatTime = 3;
-    },
-    
-    voiceMsg:function(show){
-        if(this._voicemsg){
-            this._voicemsg.active = show;
-        }
-    },
-    
-    refreshXuanPaiState:function(){
-        if(this._xuanpai == null){
-            return;
-        }
-        
-        this._xuanpai.active = cc.vv.gameNetMgr.isHuanSanZhang;
-        if(cc.vv.gameNetMgr.isHuanSanZhang == false){ 
-            return;
-        }
-       
-        this._xuanpai.getChildByName("xz").active = false;
-        this._xuanpai.getChildByName("xd").active = false;
-        
-        var seat = cc.vv.gameNetMgr.getSeatByID(this._userId);
-        if(seat){
-            if(seat.huanpais == null){
-                this._xuanpai.getChildByName("xz").active = true;
-            }
-            else{
-                this._xuanpai.getChildByName("xd").active = true;
-            }
-        }
-    },
-   
-    // called every frame, uncomment this function to activate update callback
-    update: function (dt) {
-        if(this._lastChatTime > 0){
-            this._lastChatTime -= dt;
-            if(this._lastChatTime < 0){
-                this._chatBubble.active = false;
-                this._emoji.active = false;
-                this._emoji.getComponent(cc.Animation).stop();
-            }
-        }
-    },
+      }
+      cc.vv.userinfoShow.show(seat.name, seat.userid, iconSprite, sex, seat.ip);
+    }
+  },
+
+  refresh() {
+    if (this.lblName != null) {
+      this.lblName.string = this.userName;
+    }
+
+    if (this.lblScore != null) {
+      this.lblScore.string = this.score;
+    }
+
+    if (this.nddayingjia != null) {
+      this.nddayingjia.active = !!this.dayingjia;
+    }
+
+    if (this.offline) {
+      this.offline.active = this.isOffline && this.userName !== '';
+    }
+
+    if (this.ready) {
+      this.ready.active = this.isReady && cc.vv.gameNetMgr.numOfGames > 0;
+    }
+
+    if (this.zhuang) {
+      this.zhuang.active = this.isZhuang;
+    }
+
+    this.node.active = this.userName != null && this.userName !== '';
+  },
+
+  setInfo(name, score, dayingjia) {
+    this.userName = name;
+    this.score = score;
+    if (this.score == null) {
+      this.score = 0;
+    }
+    this.dayingjia = dayingjia;
+
+    if (this.scoreBg != null) {
+      this.scoreBg.active = this.score != null;
+    }
+
+    if (this.lblScore != null) {
+      this.lblScore.node.active = this.score != null;
+    }
+
+    this.refresh();
+  },
+
+  setZhuang(value) {
+    if (this.zhuang) {
+      this.zhuang.active = value;
+    }
+  },
+
+  setReady(isReady) {
+    this.isReady = isReady;
+    if (this.ready) {
+      this.ready.active = this.isReady && cc.vv.gameNetMgr.numOfGames > 0;
+    }
+  },
+
+  setID(id) {
+    const idNode = this.node.getChildByName('id');
+    if (idNode) {
+      const lbl = idNode.getComponent(cc.Label);
+      lbl.string = `ID:${id}`;
+    }
+
+    this.userId = id;
+    if (this.sprIcon) {
+      this.sprIcon.setUserID(id);
+    }
+  },
+
+  setOffline(isOffline) {
+    this.isOffline = isOffline;
+    if (this.offline) {
+      this.offline.active = this.isOffline && this.userName !== '';
+    }
+  },
+
+  chat(content) {
+    if (this.chatBubble == null || this.emoji == null) {
+      return;
+    }
+    this.emoji.active = false;
+    this.chatBubble.active = true;
+    this.chatBubble.getComponent(cc.Label).string = content;
+    this.chatBubble
+      .getChildByName('New Label')
+      .getComponent(cc.Label).string = content;
+    this.lastChatTime = 3;
+  },
+
+  emoji(emoji) {
+    // emoji = JSON.parse(emoji);
+    if (this.emoji == null || this.semoji == null) {
+      return;
+    }
+    this.chatBubble.active = false;
+    this.emoji.active = true;
+    this.emoji.getComponent(cc.Animation).play(emoji);
+    this.lastChatTime = 3;
+  },
+
+  voiceMsg(show) {
+    if (this.voicemsg) {
+      this.voicemsg.active = show;
+    }
+  },
+
+  refreshXuanPaiState() {
+    if (this.xuanpai == null) {
+      return;
+    }
+
+    this.xuanpai.active = cc.vv.gameNetMgr.isHuanSanZhang;
+    if (!cc.vv.gameNetMgr.isHuanSanZhang) {
+      return;
+    }
+
+    this.xuanpai.getChildByName('xz').active = false;
+    this.xuanpai.getChildByName('xd').active = false;
+
+    const seat = cc.vv.gameNetMgr.getSeatByID(this.userId);
+    if (seat) {
+      if (seat.huanpais == null) {
+        this.xuanpai.getChildByName('xz').active = true;
+      } else {
+        this.xuanpai.getChildByName('xd').active = true;
+      }
+    }
+  },
+
+  // called every frame, uncomment this function to activate update callback
+  update(dt) {
+    if (this.lastChatTime > 0) {
+      this.lastChatTime -= dt;
+      if (this.lastChatTime < 0) {
+        this.chatBubble.active = false;
+        this.emoji.active = false;
+        this.emoji.getComponent(cc.Animation).stop();
+      }
+    }
+  }
 });
