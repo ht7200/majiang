@@ -36,7 +36,6 @@ cc.Class({
     }
     this.addComponent('NoticeTip');
     this.addComponent('GameOver');
-    // this.addComponent("DingQue");
     this.addComponent('PengGangs');
     this.addComponent('MJRoom');
     this.addComponent('TimePointer');
@@ -45,7 +44,6 @@ cc.Class({
     this.addComponent('Folds');
     this.addComponent('ReplayCtrl');
     this.addComponent('PopupMgr');
-    this.addComponent('HuanSanZhang');
     this.addComponent('ReConnect');
     this.addComponent('Voice');
     this.addComponent('UserInfoShow');

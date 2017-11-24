@@ -17,7 +17,7 @@ cc.Class({
   },
 
   guestAuth() {
-    let { account } = cc.arg;
+    let { account } = cc.args;
     if (account == null) {
       account = cc.sys.localStorage.getItem('account');
     }

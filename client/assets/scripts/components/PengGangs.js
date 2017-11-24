@@ -10,8 +10,8 @@ cc.Class({
     }
 
     const gameChild = this.node.getChildByName('game');
-    const mythis = gameChild.getChildByName('mythis');
-    const pengangroot = mythis.getChildByName('penggangs');
+    const myself = gameChild.getChildByName('myself');
+    const pengangroot = myself.getChildByName('penggangs');
     const realwidth = cc.director.getVisibleSize().width;
     const scale = realwidth / 1280;
     pengangroot.scaleX *= scale;
@@ -38,7 +38,7 @@ cc.Class({
   },
 
   onGameBein() {
-    this.hideSide('mythis');
+    this.hideSide('myself');
     this.hideSide('right');
     this.hideSide('up');
     this.hideSide('left');
@@ -46,8 +46,8 @@ cc.Class({
 
   hideSide(side) {
     const gameChild = this.node.getChildByName('game');
-    const mythis = gameChild.getChildByName(side);
-    const pengangroot = mythis.getChildByName('penggangs');
+    const myself = gameChild.getChildByName(side);
+    const pengangroot = myself.getChildByName('penggangs');
     if (pengangroot) {
       for (let i = 0; i < pengangroot.childrenCount; i++) {
         pengangroot.children[i].active = false;
@@ -69,8 +69,8 @@ cc.Class({
     const pre = cc.vv.mahjongmgr.getFoldPre(localIndex);
 
     const gameChild = this.node.getChildByName('game');
-    const mythis = gameChild.getChildByName(side);
-    const pengangroot = mythis.getChildByName('penggangs');
+    const myself = gameChild.getChildByName(side);
+    const pengangroot = myself.getChildByName('penggangs');
 
     for (let i = 0; i < pengangroot.childrenCount; i++) {
       pengangroot.children[i].active = false;
@@ -129,7 +129,7 @@ cc.Class({
     } else if (side === 'right') {
       pgroot.y = index * 25 * 3;
       pgroot.setLocalZOrder(-index);
-    } else if (side === 'mythis') {
+    } else if (side === 'myself') {
       pgroot.x = index * 55 * 3 + index * 10;
     } else {
       pgroot.x = -(index * 55 * 3);
@@ -145,7 +145,7 @@ cc.Class({
         sprite.node.scaleY = 1.0;
         if (flag === 'angang') {
           sprite.spriteFrame = cc.vv.mahjongmgr.getEmptySpriteFrame(side);
-          if (side === 'mythis' || side === 'up') {
+          if (side === 'myself' || side === 'up') {
             sprite.node.scaleX = 1.4;
             sprite.node.scaleY = 1.4;
           }

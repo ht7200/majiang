@@ -36,7 +36,7 @@ cc.Class({
       return;
     }
     this.nums[this.inputIndex].string = num;
-    this.sinputIndex += 1;
+    this.inputIndex += 1;
 
     if (this.inputIndex === this.nums.length) {
       const roomId = this.parseRoomID();

@@ -551,7 +551,7 @@ cc.Class({
         sprite.node.scaleX = 1.0;
         sprite.node.scaleY = 1.0;
         if (flag === 'angang') {
-          sprite.spriteFrame = cc.vv.mahjongmgr.getEmptySpriteFrame('mythis');
+          sprite.spriteFrame = cc.vv.mahjongmgr.getEmptySpriteFrame('myself');
           sprite.node.scaleX = 1.4;
           sprite.node.scaleY = 1.4;
         } else {

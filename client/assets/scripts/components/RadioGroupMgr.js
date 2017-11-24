@@ -11,7 +11,7 @@ cc.Class({
   },
 
   add(radioButton) {
-    const { groupId } = radioButton.groupId;
+    const { groupId } = radioButton;
     let buttons = this.groups[groupId];
     if (buttons == null) {
       buttons = [];

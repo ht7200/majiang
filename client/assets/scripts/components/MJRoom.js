@@ -41,7 +41,7 @@ cc.Class({
     this.timeLabel = cc.find('Canvas/infobar/time').getComponent(cc.Label);
     this.lblRoomNo.string = cc.vv.gameNetMgr.roomId;
     const gameChild = this.node.getChildByName('game');
-    const sides = ['mythis', 'right', 'up', 'left'];
+    const sides = ['myself', 'right', 'up', 'left'];
     for (let i = 0; i < sides.length; i++) {
       const sideNode = gameChild.getChildByName(sides[i]);
       const seat = sideNode.getChildByName('seat');

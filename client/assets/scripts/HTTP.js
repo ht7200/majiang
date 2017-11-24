@@ -1,5 +1,5 @@
 const URL = 'http://127.0.0.1:9000';
-cc.VERSION = 20161227;
+cc.VERSION = '20161227';
 const HTTP = cc.Class({
   extends: cc.Component,
   statics: {

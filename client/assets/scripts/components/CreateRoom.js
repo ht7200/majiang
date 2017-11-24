@@ -2,15 +2,6 @@ cc.Class({
   extends: cc.Component,
 
   properties: {
-    // foo: {
-    //    default: null,
-    //    url: cc.Texture2D,  // optional, default is typeof default
-    //    serializable: true, // optional, default is true
-    //    visible: true,      // optional, default is true
-    //    displayName: 'Foo', // optional
-    //    readonly: false,    // optional, default is false
-    // },
-    // ...
     difenxuanze: null,
     zimo: null,
     wanfaxuanze: null,
@@ -34,7 +25,7 @@ cc.Class({
     this.difenxuanze = [];
     const tt = this.node.getChildByName('difenxuanze');
     for (let i = 0; i < tt.childrenCount; i++) {
-      const n = t.children[i].getComponent('RadioButton');
+      const n = tt.children[i].getComponent('RadioButton');
       if (n != null) {
         this.difenxuanze.push(n);
       }
@@ -44,7 +35,7 @@ cc.Class({
     this.zimo = [];
     const ttt = this.node.getChildByName('zimojiacheng');
     for (let i = 0; i < ttt.childrenCount; i++) {
-      const n = t.children[i].getComponent('RadioButton');
+      const n = ttt.children[i].getComponent('RadioButton');
       if (n != null) {
         this.zimo.push(n);
       }
@@ -54,7 +45,7 @@ cc.Class({
     this.wanfaxuanze = [];
     const tttt = this.node.getChildByName('wanfaxuanze');
     for (let i = 0; i < tttt.childrenCount; i++) {
-      const n = t.children[i].getComponent('CheckBox');
+      const n = tttt.children[i].getComponent('CheckBox');
       if (n != null) {
         this.wanfaxuanze.push(n);
       }
@@ -64,7 +55,7 @@ cc.Class({
     this.zuidafanshu = [];
     const ttttt = this.node.getChildByName('zuidafanshu');
     for (let i = 0; i < ttttt.childrenCount; i++) {
-      const n = t.children[i].getComponent('RadioButton');
+      const n = ttttt.children[i].getComponent('RadioButton');
       if (n != null) {
         this.zuidafanshu.push(n);
       }
@@ -74,16 +65,16 @@ cc.Class({
     this.jushuxuanze = [];
     const tttttt = this.node.getChildByName('xuanzejushu');
     for (let i = 0; i < tttttt.childrenCount; i++) {
-      const n = t.children[i].getComponent('RadioButton');
+      const n = tttttt.children[i].getComponent('RadioButton');
       if (n != null) {
         this.jushuxuanze.push(n);
       }
     }
 
     this.dianganghua = [];
-    const tttttttt = this.node.getChildByName('dianganghua');
-    for (let i = 0; i < tttttttt.childrenCount; i++) {
-      const n = t.children[i].getComponent('RadioButton');
+    const ttttttt = this.node.getChildByName('dianganghua');
+    for (let i = 0; i < ttttttt.childrenCount; i++) {
+      const n = ttttttt.children[i].getComponent('RadioButton');
       if (n != null) {
         this.dianganghua.push(n);
       }
